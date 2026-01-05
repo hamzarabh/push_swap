@@ -1,73 +1,85 @@
-long ft_atol(char *a_num)
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hrabh <hrabh@student.1337.ma>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/12/27 10:40:46 by hrabh             #+#    #+#             */
+/*   Updated: 2026/01/05 11:01:47 by hrabh            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "push_swap.h"
+
+static int	ft_check_sort(t_push_swap *stack)
 {
-	int i;
-	long res;
-	int sign;
-	sign = 1;
-	i = 0;
-	res = 0;
-	if(a_num[i] == '-')
+	int	tmp;
+
+	if (!stack)
+		return (-1);
+	tmp = stack->num;
+	while (stack)
 	{
-		sign = -1;
-		i++;
+		stack = stack->next;
+		if (!stack)
+			break ;
+		if (stack->num < tmp)
+			return (0);
+		tmp = stack->num;
 	}
-	while(a_num[i])
-	{
-		res = (res * 10) + (a_num[i] - '0');
-		i++;
-	}
-	return (res * sign);
-}
-int count_digit(char *str)
-{
-	int i;
-	int count;
-	count = 0;
-	i = 0;
-	if(str[i] == '-' || str[i] =='+')
-		i++;
-	while (str[i] && str[i] == '0')
-		i++;
-	while(str[i])
-	{
-		i++ ;
-		const++ ;
-	}
-	return (count);
+	return (1);
 }
 
-int check_input(char *str)
+static void	free_stack(t_push_swap **stack)
 {
-    int i;
-    i = 0;
-    while (str[i])
-    {
-        while(str[i] == ' ')
-            i++;
-        if(str[i] == '-' || str[i] == '+')
-            i++;
-        if(!(str[i] >= '0' && str[i] <= '9'))
-            return (0);
-        i++;
-    }
+	t_push_swap	*tmp;
 
-	if(count_digit(str) > 10)
-		return (0);
-	if(ft_atol(str) > 2147483647 || ft_atol(str) < -2147483648)
-		return (0);
-    return (1);
+	tmp = NULL;
+	while (*stack)
+	{
+		tmp = (*stack)->next;
+		free(*stack);
+		*stack = tmp;
+	}
 }
-#include<stdio.h>
-int main(int argc, char **argv)
+
+int	main(int argc, char **argv)
 {
-	int i ;
-	i= 1;
-  while(i < argc)
-  {
-    if(check_input(argv[i]) == 0)
-        printf("Error\n");
-    i++;
-  }
-//printf("%ld",ft_atol("0"));
-    return (0);
+	t_push_swap	*stack_a;
+	t_push_swap	*stack_b;
+
+	if (argc < 1)
+		return (0);
+	stack_a = NULL;
+	stack_b = NULL;
+	ft_creat_stack(argc, argv, &stack_a);
+	if (stack_a && ft_is_unique(stack_a) == 0)
+	{
+		free_stack(&stack_a);
+		write(2, "Error\n", 6);
+		return (0);
+	}
+	if (stack_a)
+	{
+		if (ft_check_sort(stack_a) == 1)
+			return (0);
+		ft_push_swap(&stack_a, &stack_b);
+		free_stack(&stack_a);
+	}
+	return (0);
 }
+// if(ft_check_sort(stack_a) == 1)
+// 		printf("##########okokokokokokok###");
+// t_push_swap *t;
+//  printf("---------------------------\n");
+// if(stack_a)
+// {
+// t = stack_a;
+// while (t)
+// {
+// 	printf("%d\n",t->num);
+// 	t = t->next;
+// }
+// free_stack(&stack_a);
+// }
