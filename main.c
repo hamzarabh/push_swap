@@ -62,24 +62,22 @@ int	main(int argc, char **argv)
 	}
 	if (stack_a)
 	{
-		if (ft_check_sort(stack_a) == 1)
-			return (0);
-		ft_push_swap(&stack_a, &stack_b);
+		if (ft_check_sort(stack_a) == 0)
+			ft_push_swap(&stack_a, &stack_b);
 		free_stack(&stack_a);
 	}
 	return (0);
 }
 // if(ft_check_sort(stack_a) == 1)
-// 		printf("##########okokokokokokok###");
+// 		printf("is sort");
 // t_push_swap *t;
-//  printf("---------------------------\n");
 // if(stack_a)
 // {
-// t = stack_a;
-// while (t)
-// {
-// 	printf("%d\n",t->num);
-// 	t = t->next;
-// }
-// free_stack(&stack_a);
+// 		t = stack_a;
+// 		while (t)
+// 		{
+// 			printf("%d\n",t->num);
+// 			t = t->next;
+// 		}
+// 		free_stack(&stack_a);
 // }
